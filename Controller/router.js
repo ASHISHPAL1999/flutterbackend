@@ -18,10 +18,13 @@ router.post("/register",express.json(), (req,res)=>{
     userData=req.body
     userData.token="";
     var db=new database(userData);
+   
     database.findOne({userEmail:req.body.userEmail}).then((result)=>{
+        console.log("result="+result)
       
         if(result==null)
 {
+    console.log("user not exist block")
     db.save().then((success)=>{
        
         res.status(201).send(db)
@@ -43,8 +46,9 @@ router.post("/register",express.json(), (req,res)=>{
 }  
 
 else{
-
+        
     if(result.userEmail==req.body.userEmail){
+       
         res.status(400).send("user already exist")
     }
 }
